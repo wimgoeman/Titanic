@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Scanner\FileInfo.h"
+#include "Scanner/FileInfo.h"
 
 using namespace std;
 
