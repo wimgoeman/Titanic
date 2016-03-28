@@ -1,3 +1,4 @@
 language: cpp
 script: cmake . && make && ./titanic_client .
 compiler: gcc
+
