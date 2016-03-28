@@ -1,12 +1,19 @@
-cmake_minimum_required(VERSION 2.6)
+#Version 3.0 for C++11 features
+cmake_minimum_required(VERSION 3.0) 
 
 project("Titanic Client")
 
-message("cxx Flags: " ${CMAKE_CXX_FLAGS})
+#Compile poco libraries
+add_subdirectory(libs/poco)
 
 set(SOURCES
-	"src/main.cpp"
-	"src/Scanner/FileInfo.h"
-	"src/Scanner/FileInfo.cpp")
+    "src/main.cpp"
+    "src/scanner/FileInfo.h"
+    "src/scanner/FileInfo.cpp"
+    "src/scanner/Scanner.cpp"
+    "src/scanner/Scanner.h")
 
 add_executable (titanic_client ${SOURCES})
+target_link_libraries(titanic_client LINK_PRIVATE PocoFoundation)
+target_compile_features(titanic_client PUBLIC cxx_auto_type)
+

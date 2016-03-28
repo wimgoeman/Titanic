@@ -3,7 +3,7 @@
 namespace titanic {
 	namespace scanner {
 
-		FileInfo::FileInfo()
+		FileInfo::FileInfo(const std::string& filename) : _filename(filename)
 		{
 		}
 

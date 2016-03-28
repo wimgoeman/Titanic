@@ -8,7 +8,7 @@ namespace titanic {
 		class FileInfo
 		{
 		public:
-			FileInfo();
+			FileInfo(const std::string& filename);
 			virtual ~FileInfo();
 
 			const std::string&
