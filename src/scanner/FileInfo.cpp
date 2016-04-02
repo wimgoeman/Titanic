@@ -1,40 +1,53 @@
 #include "FileInfo.h"
 
+#include <Poco/Path.h>
+
 namespace titanic {
-	namespace scanner {
+namespace scanner {
 
-		FileInfo::FileInfo(const std::string& filename) : _filename(filename)
-		{
-		}
+FileInfo::FileInfo(const Poco::Path& path)
+{
+	_path = Poco::Path::transcode(path.toString());
+}
 
 
-		FileInfo::~FileInfo()
-		{
-		}
+FileInfo::~FileInfo()
+{
+}
 
-		const std::string&
-		FileInfo::getFilename() const
-		{
-			return _filename;
-		}
+const unsigned long
+FileInfo::getSize() const {
+	return _size;
+}
 
-		void
-		FileInfo::setFilename(const std::string& filename)
-		{
-			_filename = filename;
-		}
+void
+FileInfo::setSize(const unsigned long size) {
+	_size = size;
+}
 
-		const std::string&
-		FileInfo::getHash() const
-		{
-			return _hash;
-		}
+const std::string&
+FileInfo::getPath() const
+{
+	return _path;
+}
 
-		void
-		FileInfo::setHash(const std::string& hash)
-		{
-			_hash = hash;
-		}
+void
+FileInfo::setPath(const std::string& path)
+{
+	_path = path;
+}
 
-	}
+const std::string&
+FileInfo::getHash() const
+{
+	return _hash;
+}
+
+void
+FileInfo::setHash(const std::string& hash)
+{
+	_hash = hash;
+}
+
+}
 }

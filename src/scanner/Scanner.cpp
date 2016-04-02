@@ -10,7 +10,7 @@ namespace titanic {
             Poco::RecursiveDirectoryIterator<Poco::ChildrenFirstTraverse> dirIt(path);
             Poco::RecursiveDirectoryIterator<Poco::ChildrenFirstTraverse> dirEnd;
             for (; dirIt != dirEnd; ++dirIt) {
-                FileInfo fileInfo(dirIt.name());
+                FileInfo fileInfo(dirIt->path());
                 foundFiles.push_back(fileInfo);
             }
 

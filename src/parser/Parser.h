@@ -2,30 +2,22 @@
 
 #include <string>
 
-namespace Poco {
-class Path;
-}
-
 namespace titanic {
-namespace scanner {
+namespace parser {
 
-class FileInfo
-{
+class Parser {
 public:
-	FileInfo(const Poco::Path& path);
-	virtual ~FileInfo();
+	Parser(const std::string& path);
+	~Parser();
+
+	bool parse();
 
 	const unsigned long getSize() const;
 
-	void setSize(const unsigned long size);
-
-	const std::string& getPath() const;
-
-	void setPath(const std::string& path);
-
 	const std::string& getHash() const;
 
-	void setHash(const std::string& hash);
+	const std::string& getPath() const;
+	void setPath(const std::string& path);
 
 private:
 	unsigned long _size;

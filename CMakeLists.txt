@@ -11,7 +11,9 @@ set(SOURCES
     "src/scanner/FileInfo.h"
     "src/scanner/FileInfo.cpp"
     "src/scanner/Scanner.cpp"
-    "src/scanner/Scanner.h")
+    "src/scanner/Scanner.h"
+	"src/parser/Parser.h"
+	"src/parser/Parser.cpp")
 
 add_executable (titanic_client ${SOURCES})
 target_link_libraries(titanic_client LINK_PRIVATE PocoFoundation)
