@@ -8,10 +8,14 @@ add_subdirectory(libs/poco)
 
 set(SOURCES
     "src/main.cpp"
-    "src/scanner/FileInfo.h"
-    "src/scanner/FileInfo.cpp"
+	"src/artefact/Artefact.h"
+	"src/artefact/Artefact.cpp"
+	"src/artefact/Directory.h"
+	"src/artefact/Directory.cpp"
+	"src/artefact/File.h"
+	"src/artefact/File.cpp"
+	"src/scanner/Scanner.h"
     "src/scanner/Scanner.cpp"
-    "src/scanner/Scanner.h"
 	"src/parser/Parser.h"
 	"src/parser/Parser.cpp")
 

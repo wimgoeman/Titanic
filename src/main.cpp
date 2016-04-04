@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     titanic::scanner::Scanner scanner;
 	Poco::Stopwatch stopWatch;
 	stopWatch.start();
-    std::vector<titanic::scanner::FileInfo> foundFiles = scanner.findFiles(listPath);
+    std::vector<titanic::artefact::File> foundFiles = scanner.findFiles(listPath);
 	unsigned long scannerTime = (unsigned long) stopWatch.elapsed();
 
 	// Parse files
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 	const unsigned int displayCount = 20;
 	std::cout << "========================================================= " << displayCount << " smallest files:" << std::endl;
 	unsigned int displayCounter = 0;
-	std::sort(foundFiles.begin(), foundFiles.end(), [](titanic::scanner::FileInfo a, titanic::scanner::FileInfo b) { return a.getSize() < b.getSize(); });
+	std::sort(foundFiles.begin(), foundFiles.end(), [](titanic::artefact::File a, titanic::artefact::File b) { return a.getSize() < b.getSize(); });
 	for (auto fileIt = foundFiles.begin(); fileIt < foundFiles.end() && displayCounter < displayCount; ++fileIt) {
 		std::cout << fileIt->getPath() << " (" << (fileIt->getSize() / 1024) << " kb): " << fileIt->getHash() << std::endl;
 		++displayCounter;

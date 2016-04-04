@@ -7,13 +7,13 @@ class Path;
 }
 
 namespace titanic {
-namespace scanner {
+namespace artefact {
 
-class FileInfo
+class File
 {
 public:
-	FileInfo(const Poco::Path& path);
-	virtual ~FileInfo();
+	File(const Poco::Path& path);
+	virtual ~File();
 
 	const unsigned long getSize() const;
 
