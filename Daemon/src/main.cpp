@@ -5,36 +5,27 @@
 #include <Poco/Stopwatch.h>
 #include "scanner/Scanner.h"
 #include "parser/Parser.h"
+#include "interface/TcpServer.h"
 
-
-int main(int argc, char* argv[]) {
-	// Read input
-	std::string listPath;
-    if (argc < 2) {
-        std::cout << "No path specified, listing current dir";
-		listPath = ".";
-    } else {
-        std::cout << "Listing for " << argv[1] << std::endl;
-		listPath = argv[1];
-    }
-
+void
+run(const std::string& path) {
 	// Find files
-    titanic::scanner::Scanner scanner;
+	titanic::scanner::Scanner scanner;
 	Poco::Stopwatch stopWatch;
 	stopWatch.start();
-    std::vector<titanic::artefact::File> foundFiles = scanner.findFiles(listPath);
-	unsigned long scannerTime = (unsigned long) stopWatch.elapsed();
+	std::vector<titanic::artefact::File> foundFiles = scanner.findFiles(path);
+	unsigned long scannerTime = (unsigned long)stopWatch.elapsed();
 
 	// Parse files
 	unsigned long totalSize = 0;
-    for (auto fileIt = foundFiles.begin(); fileIt < foundFiles.end(); ++fileIt) {
+	for (auto fileIt = foundFiles.begin(); fileIt < foundFiles.end(); ++fileIt) {
 		titanic::parser::Parser parser(fileIt->getPath());
 		parser.parse();
 		fileIt->setHash(parser.getHash());
 		fileIt->setSize(parser.getSize());
 		totalSize += parser.getSize();
-    }
-	unsigned long parserTime = ((unsigned long) stopWatch.elapsed()) - scannerTime;
+	}
+	unsigned long parserTime = ((unsigned long)stopWatch.elapsed()) - scannerTime;
 
 	// Smallest files
 	const unsigned int displayCount = 20;
@@ -61,16 +52,46 @@ int main(int argc, char* argv[]) {
 	std::cout << "Parsed [" << (totalSize / 1024) << "] kb in [" << (parserTime / 1000) << "] msec" << std::endl;
 
 	// Speeds
-	double parserTime_sec = ((double) parserTime / 1000 / 1000);
+	double parserTime_sec = ((double)parserTime / 1000 / 1000);
 	if (parserTime_sec == 0) {
 		parserTime_sec = 1;
 	}
 	std::cout << "Parse speed: " << ((totalSize / 1024) / parserTime_sec) << " kb/sec" << std::endl;
 	if (foundFiles.size()) {
 		std::cout << "Avg file size: " << ((totalSize / 1024) / foundFiles.size()) << " kb" << std::endl;
-	} else {
+	}
+	else {
 		std::cout << "Avg file size: 0 kb" << std::endl;
 	}
+}
+
+int main(int argc, char* argv[]) {
+	// Read input
+	std::string listPath;
+    if (argc < 2) {
+        std::cout << "No path specified, listing current dir";
+		listPath = ".";
+    } else {
+        std::cout << "Listing for " << argv[1] << std::endl;
+		listPath = argv[1];
+    }
+	run(listPath);
+
+	// Start TcpServer
+	std::cout << "============================================================================" << std::endl;
+	std::cout << " Starting TcpServer" << std::endl;
+	titanic::interface::TcpServer tcpServer;
+	bool keepRunning = true;
+	while (keepRunning) {
+		const std::string command = tcpServer.receiveCommand();
+		std::cout << "Command: " << command << std::endl;
+		if (command == "exit") {
+			break;
+		} else if (command == "hello") {
+			run("../../");
+		}
+	}
+	std::cout << "TcpServer ended" << std::endl;
 
 	return 0;
 }
