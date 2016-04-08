@@ -3,9 +3,12 @@
 #include <algorithm>
 
 #include <Poco/Stopwatch.h>
+#include <Poco/File.h>
+
 #include "scanner/Scanner.h"
 #include "parser/Parser.h"
 #include "interface/TcpServer.h"
+#include "artefact/Artefact.h"
 
 void
 run(const std::string& path) {
@@ -75,6 +78,8 @@ int main(int argc, char* argv[]) {
         std::cout << "Listing for " << argv[1] << std::endl;
 		listPath = argv[1];
     }
+	titanic::artefact::Artefact artefact;
+	artefact.initialize(Poco::File(listPath));
 	run(listPath);
 
 	// Start TcpServer

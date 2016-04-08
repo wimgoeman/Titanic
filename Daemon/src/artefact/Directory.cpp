@@ -3,7 +3,7 @@
 namespace titanic {
 namespace artefact {
 
-Directory::Directory() {
+Directory::Directory(const std::string& name) : Node(name) {
 
 }
 

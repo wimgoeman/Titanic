@@ -5,14 +5,12 @@
 namespace titanic {
 namespace artefact {
 
-File::File(const Poco::Path& path)
-{
+File::File(const Poco::Path& path) : Node ("Booya") {
 	_path = Poco::Path::transcode(path.toString());
 }
 
 
-File::~File()
-{
+File::~File() {
 }
 
 const unsigned long

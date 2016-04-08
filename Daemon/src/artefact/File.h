@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Node.h"
+
 namespace Poco {
 class Path;
 }
@@ -9,8 +11,7 @@ class Path;
 namespace titanic {
 namespace artefact {
 
-class File
-{
+class File : public Node {
 public:
 	File(const Poco::Path& path);
 	virtual ~File();
