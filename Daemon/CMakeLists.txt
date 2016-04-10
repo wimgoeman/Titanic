@@ -20,7 +20,10 @@ set(DAEMON_SOURCES
 	"src/scanner/Scanner.h"
 	"src/scanner/Scanner.cpp"
 	"src/parser/Parser.h"
-	"src/parser/Parser.cpp")
+	"src/parser/Parser.cpp"
+	"src/util/Logger.h"
+	"src/util/Logger.cpp"
+	"src/util/LoggerMacros.hpp")
 
 add_executable (titanic_daemon ${DAEMON_SOURCES})
 target_link_libraries(titanic_daemon LINK_PRIVATE PocoFoundation)

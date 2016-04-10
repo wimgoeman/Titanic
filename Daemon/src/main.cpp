@@ -4,11 +4,16 @@
 
 #include <Poco/Stopwatch.h>
 #include <Poco/File.h>
+#include <Poco/SimpleFileChannel.h>
+#include <Poco/AutoPtr.h>
+#include <Poco/PatternFormatter.h>
+#include <Poco/FormattingChannel.h>
 
 #include "scanner/Scanner.h"
 #include "parser/Parser.h"
 #include "interface/TcpServer.h"
 #include "artefact/Artefact.h"
+#include "util/LoggerMacros.hpp"
 
 void
 run(const std::string& path) {
@@ -68,7 +73,18 @@ run(const std::string& path) {
 	}
 }
 
+void initLogger() {
+	Poco::AutoPtr<Poco::SimpleFileChannel> fileChannel(new Poco::SimpleFileChannel("log.txt"));
+	Poco::AutoPtr<Poco::PatternFormatter> patternFormatter(new Poco::PatternFormatter());
+	patternFormatter->setProperty("pattern", "%Y-%m-%d %H:%M:%S.%F [%T] %s (%U:%u): [%p] %t");
+	Poco::AutoPtr<Poco::FormattingChannel> formattingChannel(new Poco::FormattingChannel(patternFormatter, fileChannel));
+	Poco::Logger::root().setChannel(formattingChannel);
+	Poco::Logger::root().setLevel(Poco::Message::PRIO_TRACE);
+}
+
 int main(int argc, char* argv[]) {
+	initLogger();
+
 	// Read input
 	std::string listPath;
     if (argc < 2) {
@@ -78,8 +94,8 @@ int main(int argc, char* argv[]) {
         std::cout << "Listing for " << argv[1] << std::endl;
 		listPath = argv[1];
     }
-	titanic::artefact::Artefact artefact;
-	artefact.initialize(Poco::File(listPath));
+	titanic::artefact::Artefact artefact((Poco::File(listPath)));
+	artefact.initialize();
 	run(listPath);
 
 	// Start TcpServer

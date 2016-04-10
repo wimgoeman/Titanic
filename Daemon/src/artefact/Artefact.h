@@ -1,8 +1,7 @@
 #pragma once
 
-namespace Poco {
-class File;
-}
+#include <Poco/File.h>
+#include "../util/Logger.h"
 
 namespace titanic {
 namespace artefact {
@@ -11,13 +10,17 @@ class Directory;
 
 class Artefact {
 public:
-	Artefact();
+	Artefact(const Poco::File& path);
 	~Artefact();
 
-	void
-		initialize(const Poco::File& directory);
+	void initialize();
+
+	void scan();
 
 private:
+	static util::Logger Log;
+
+	Poco::File _path;
 	Directory* _directory;
 };
 }
