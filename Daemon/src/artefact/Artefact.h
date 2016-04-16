@@ -17,8 +17,16 @@ public:
 
 	void scan();
 
+	unsigned long countFiles() const;
+
+	unsigned long countDirectories() const;
+
+	unsigned long countAll() const;
+
 private:
 	static util::Logger Log;
+
+	void reset();
 
 	Poco::File _path;
 	Directory* _directory;

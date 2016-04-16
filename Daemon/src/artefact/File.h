@@ -2,27 +2,21 @@
 
 #include <string>
 
-#include "Node.h"
-
-namespace Poco {
-class Path;
-}
+#include <Poco/File.h>
 
 namespace titanic {
 namespace artefact {
 
-class File : public Node {
+class File {
 public:
-	File(const Poco::Path& path);
+	File(const Poco::File& filePath);
 	virtual ~File();
+
+	const std::string getPath() const;
 
 	const unsigned long getSize() const;
 
 	void setSize(const unsigned long size);
-
-	const std::string& getPath() const;
-
-	void setPath(const std::string& path);
 
 	const std::string& getHash() const;
 
@@ -30,8 +24,8 @@ public:
 
 private:
 	unsigned long _size;
-	std::string _path;
 	std::string _hash;
+	Poco::File _filePath;
 };
 
 }

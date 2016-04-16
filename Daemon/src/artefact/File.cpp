@@ -1,16 +1,19 @@
 #include "File.h"
 
-#include <Poco/Path.h>
-
 namespace titanic {
 namespace artefact {
 
-File::File(const Poco::Path& path) : Node ("Booya") {
-	_path = Poco::Path::transcode(path.toString());
+File::File(const Poco::File& filePath) : _size(0), _filePath(filePath) {
+
 }
 
 
 File::~File() {
+}
+
+const std::string
+File::getPath() const {
+	return _filePath.path();
 }
 
 const unsigned long
@@ -21,18 +24,6 @@ File::getSize() const {
 void
 File::setSize(const unsigned long size) {
 	_size = size;
-}
-
-const std::string&
-File::getPath() const
-{
-	return _path;
-}
-
-void
-File::setPath(const std::string& path)
-{
-	_path = path;
 }
 
 const std::string&

@@ -8,8 +8,6 @@ set(DAEMON_SOURCES
 	"src/artefact/Directory.cpp"
 	"src/artefact/File.h"
 	"src/artefact/File.cpp"
-	"src/artefact/Node.h"
-	"src/artefact/Node.cpp"
 	"src/exception/Exception.h"
 	"src/exception/Exception.cpp"
 	"src/exception/InsufficientPrivileges.hpp"

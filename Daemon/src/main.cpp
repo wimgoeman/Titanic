@@ -64,6 +64,11 @@ run(const std::string& path) {
 	if (parserTime_sec == 0) {
 		parserTime_sec = 1;
 	}
+	double scannerTime_sec = ((double)scannerTime / 1000 / 1000);
+	if (scannerTime_sec == 0) {
+		scannerTime_sec = 1;
+	}
+	std::cout << "Scan speed: " << (foundFiles.size() / scannerTime_sec) << " files/sec" << std::endl;
 	std::cout << "Parse speed: " << ((totalSize / 1024) / parserTime_sec) << " kb/sec" << std::endl;
 	if (foundFiles.size()) {
 		std::cout << "Avg file size: " << ((totalSize / 1024) / foundFiles.size()) << " kb" << std::endl;
@@ -71,6 +76,26 @@ run(const std::string& path) {
 	else {
 		std::cout << "Avg file size: 0 kb" << std::endl;
 	}
+}
+
+void run2(const std::string& path) {
+	Poco::File file(path);
+	titanic::artefact::Artefact artefact(file);
+	Poco::Stopwatch stopWatch;
+	stopWatch.start();
+	artefact.initialize();
+	unsigned long start = (unsigned long)stopWatch.elapsed();
+	artefact.scan();
+	unsigned long scanTime = ((unsigned long)stopWatch.elapsed()) - start;
+	std::cout << "ScanTime: " << (scanTime / 1000) << std::endl;
+	std::cout << "Files: " << artefact.countFiles() << std::endl;
+	std::cout << "Directories: " << artefact.countDirectories() << std::endl;
+	std::cout << "Nodes: " << artefact.countAll() << std::endl;
+	double scanTime_sec = ((double)scanTime / 1000 / 1000);
+	if (scanTime_sec == 0) {
+		scanTime_sec = 1;
+	}
+	std::cout << "Scan speed: " << (artefact.countAll() / scanTime_sec) << " files/sec" << std::endl;
 }
 
 void initLogger() {
@@ -94,8 +119,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Listing for " << argv[1] << std::endl;
 		listPath = argv[1];
     }
-	titanic::artefact::Artefact artefact((Poco::File(listPath)));
-	artefact.initialize();
+	run2(listPath);
 	run(listPath);
 
 	// Start TcpServer

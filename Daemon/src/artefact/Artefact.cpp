@@ -19,9 +19,7 @@ Artefact::Artefact(const Poco::File& path) : _directory(NULL), _path(path) {
 }
 
 Artefact::~Artefact() {
-	if (_directory)
-		delete _directory;
-	_directory = NULL;
+	reset();
 	TITANIC_DBG(Log, "Artefact destroyed");
 }
 
@@ -41,10 +39,8 @@ Artefact::initialize() {
 	}
 
 	// Construct root directory object
-	if (_directory)
-		delete _directory;
-	_directory = NULL;
-	_directory = new Directory(Poco::Path(_path.path()).getFileName());
+	reset();
+	_directory = new Directory(Poco::File(_path.path()));
 
 	TITANIC_DBG(Log, "Artefact initialized");
 }
@@ -56,6 +52,37 @@ Artefact::scan() {
 	}
 
 	_directory->scan();
+}
+
+unsigned long
+Artefact::countFiles() const {
+	if (_directory)
+		return _directory->countFiles();
+	else
+		return 0;
+}
+
+unsigned long
+Artefact::countDirectories() const {
+	if (_directory)
+		return _directory->countDirectories();
+	else
+		return 0;
+}
+
+unsigned long
+Artefact::countAll() const {
+	if (_directory)
+		return _directory->countAll();
+	else
+		return 0;
+}
+
+void
+Artefact::reset() {
+	if (_directory)
+		delete _directory;
+	_directory = NULL;
 }
 
 }
