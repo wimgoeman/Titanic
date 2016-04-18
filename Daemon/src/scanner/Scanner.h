@@ -2,13 +2,13 @@
 
 #include <vector>
 #include <string>
-#include "FileInfo.h"
+#include "../artefact/File.h"
 
 namespace titanic {
     namespace scanner {
         class Scanner {
         public:
-            std::vector<FileInfo>
+            std::vector<artefact::File>
             findFiles(const std::string& path);
         };
     }
