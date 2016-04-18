@@ -26,3 +26,7 @@
 
 # Visual Studio
 Visual Studio
+
+# CMake working dir for makefiles
+build
+
